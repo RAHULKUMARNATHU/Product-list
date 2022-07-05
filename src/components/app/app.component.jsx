@@ -37,6 +37,15 @@ const App = () => {
     setFilteredProducts(filteredProductsByPrice);
   };
 
+  const handleSort = (sortType) => {
+    const sortedProducts = _.orderBy(
+      filteredProducts,
+      (product) => product.price,
+      [sortType]
+    );
+    setFilteredProducts(sortedProducts);
+  };
+
   return (
     <div className="main-page-container">
       {/* navbar  */}
@@ -59,8 +68,8 @@ const App = () => {
 
         {/* right navbar */}
         <div className="navbar-right">
-          <button>sort by Price (ASC)</button>
-          <button>sort by Price (DESC)</button>
+          <button onClick={() => handleSort("asc")}>sort by Price (ASC)</button>
+          <button onClick={() => handleSort("desc")}>sort by Price (DESC)</button>
         </div>
       </div>
 
