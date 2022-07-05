@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ProductCard } from "..";
@@ -6,10 +7,26 @@ import { products } from "../../constant";
 import "./app.component.css";
 
 const App = () => {
+  const [filteredProducts, setFilteredProducts] = useState(
+    products.slice(0, 15)
+  );
 
+  const [hasMore, setHasmore] = useState(true);
 
+  const handleNext = () => {
+    if (filteredProducts.length >= 100) {
+      setHasmore(false);
+      return;
+    }
+    const nextProducts = products.slice(
+      filteredProducts.length,
+      filteredProducts.length + 15
+    );
 
-  const [filteredProducts, setFilteredProducts] = useState(products.slice(0, 15));
+    console.log({ nextProducts });
+    setFilteredProducts((prev) => [...prev, ...nextProducts]);
+  };
+
   return (
     <div className="main-page-container">
       {/* navbar  */}
@@ -38,7 +55,7 @@ const App = () => {
 
       {/* main section */}
       <div className="products-container flex">
-        {/* <InfiniteScroll
+        <InfiniteScroll
           dataLength={filteredProducts.length}
           next={handleNext}
           hasMore={hasMore}
@@ -51,7 +68,6 @@ const App = () => {
           }}
           height="calc(100vh - 64px)"
         >
-        */}
           {filteredProducts.map(({ id, price, title }, index) => (
             <ProductCard
               key={id}
@@ -60,7 +76,7 @@ const App = () => {
               image="https://powderalloy.com/wp-content/uploads/2015/11/sidebar-placeholder.png"
             />
           ))}
-       {/* </InfiniteScroll>  */}
+        </InfiniteScroll>
       </div>
     </div>
   );
