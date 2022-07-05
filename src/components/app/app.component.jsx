@@ -1,4 +1,4 @@
-
+import _ from "lodash";
 import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ProductCard } from "..";
@@ -13,6 +13,7 @@ const App = () => {
 
   const [hasMore, setHasmore] = useState(true);
 
+  // handle next product
   const handleNext = () => {
     if (filteredProducts.length >= 100) {
       setHasmore(false);
@@ -25,6 +26,15 @@ const App = () => {
 
     console.log({ nextProducts });
     setFilteredProducts((prev) => [...prev, ...nextProducts]);
+  };
+
+  // Handle search by Price
+
+  const handleSearch = (value) => {
+    const filteredProductsByPrice = filteredProducts.filter(
+      (product) => product.price >= Number(value)
+    );
+    setFilteredProducts(filteredProductsByPrice);
   };
 
   return (
@@ -42,6 +52,7 @@ const App = () => {
               max={10000}
               placeholder="Search...."
               autoFocus
+              onChange={(e) => handleSearch(e.target.value)}
             />
           </div>
         </div>
