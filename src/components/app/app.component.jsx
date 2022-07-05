@@ -1,6 +1,15 @@
+import { useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { ProductCard } from "..";
+import { products } from "../../constant";
+
 import "./app.component.css";
 
 const App = () => {
+
+
+
+  const [filteredProducts, setFilteredProducts] = useState(products.slice(0, 15));
   return (
     <div className="main-page-container">
       {/* navbar  */}
@@ -22,15 +31,37 @@ const App = () => {
 
         {/* right navbar */}
         <div className="navbar-right">
-        <button>sort by Price (ASC)</button><button>sort by Price (DESC)</button>
+          <button>sort by Price (ASC)</button>
+          <button>sort by Price (DESC)</button>
         </div>
       </div>
 
-    {/* main section */}
-    <div className="products-container flex">
-
-    </div>
-
+      {/* main section */}
+      <div className="products-container flex">
+        {/* <InfiniteScroll
+          dataLength={filteredProducts.length}
+          next={handleNext}
+          hasMore={hasMore}
+          loader={<h4>Loading...</h4>}
+          style={{
+            width: "100%",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+          height="calc(100vh - 64px)"
+        >
+        */}
+          {filteredProducts.map(({ id, price, title }, index) => (
+            <ProductCard
+              key={id}
+              name={`${id} ${title}`}
+              price={price}
+              image="https://powderalloy.com/wp-content/uploads/2015/11/sidebar-placeholder.png"
+            />
+          ))}
+       {/* </InfiniteScroll>  */}
+      </div>
     </div>
   );
 };
